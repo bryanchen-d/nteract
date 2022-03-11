@@ -183,7 +183,7 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
         fixedOverflowWidgets: true,
         find: {
           addExtraSpaceOnTop: false, // pops the editor out of alignment if turned on
-          seedSearchStringFromSelection: true, // default is true
+          seedSearchStringFromSelection: "always", // default is always
           autoFindInSelection: "never" // default is "never"
         },
         language: this.props.language,
@@ -327,7 +327,7 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
 
     // Apply new model to the editor when the language is changed.
     const model = this.editor.getModel();
-    if (model && language && model.getModeId() !== language) {
+    if (model && language && model.id !== language) {
 
         // Get a reference to the current editor
         const editor = this.editor;
@@ -477,7 +477,9 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
       this.editor.updateOptions({
         matchBrackets: isActive ? "always" : "never",
         occurrencesHighlight: isActive,
-        renderIndentGuides: isActive
+        guides:{
+          indentation: isActive
+        }
       });
     }
   }
